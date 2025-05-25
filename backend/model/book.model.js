@@ -9,3 +9,6 @@ const bookSchema = mongoose.Schema({
 })
 
 // We create model of above schema 
+
+const Book = mongoose.model("Book",bookSchema);
+export default Book;

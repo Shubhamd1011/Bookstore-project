@@ -1,17 +1,49 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from "react-hook-form";
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 function Login() {
 
   // for form validation i used react hook form.
   const {
     register,
-    handleSubmit,
+    handleSubmit,   
     formState: { errors }
   } = useForm();
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = async (data) =>{
+     const userInfo = {
+      fullname: data.fullname,
+      email: data.email,
+      password: data.password,
+    };
+
+    await axios.post("http://localhost:3000/user/login", userInfo, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((res) => {
+      console.log(res.data);
+      if (res.data) {
+        toast.success('Login successfully!!');
+        // This pop up comes from react hot toast and i really like it
+        setTimeout(()=>{
+             document.getElementById('my_modal_3').close()
+            window.location.reload();
+            localStorage.setItem("Users",JSON.stringify(res.data.user))
+        },2000)
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err.response && err.response.data) {
+                toast.error("Error: " + err.response.data.message);
+      } 
+    });
+  }
 
   return (
     <>
@@ -59,7 +91,7 @@ function Login() {
 
             {/* Button */}
             <div className='flex justify-around mt-8'>
-              <button className='bg-pink-500 text-white px-3 py-1 hover:bg-pink-600 rounded-md duration-200'>
+              <button className='bg-pink-500 text-white px-3 py-1 hover:bg-pink-600 rounded-md duration-200 cursor-pointer'>
                 Login
               </button>
               <p>
