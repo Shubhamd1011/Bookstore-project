@@ -10,7 +10,7 @@ dotenv.config(); // ✅ Load env variables at the top
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const URI = process.env.MongoDBURI;
+const URI = process.env.MONGO_URI;
 
 // Middleware
 app.use(cors());
