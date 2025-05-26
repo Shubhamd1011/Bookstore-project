@@ -21,7 +21,7 @@ function Signup() {
       password: data.password,
     };
 
-    await axios.post("http://localhost:3000/user/signup", userInfo, {
+    await axios.post("https://bookstore-project-1-bdqd.onrender.com/user/signup", userInfo, {
       headers: {
         "Content-Type": "application/json"
       }
